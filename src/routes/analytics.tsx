@@ -10,7 +10,7 @@ import { weeklyHours, readinessEvolution, healthCategories } from "@/lib/mock-da
 import { Activity, Clock, Trophy, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/analytics")({
-  head: () => ({ meta: [{ title: "Analytics — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Analytics | AdmitOS" }] }),
   component: AnalyticsPage,
 });
 

@@ -5,7 +5,7 @@ import { activities, honors } from "@/lib/mock-data";
 import { Award, Plus, Trophy, Users, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/activities")({
-  head: () => ({ meta: [{ title: "Activities — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Activities | AdmitOS" }] }),
   component: ActivitiesPage,
 });
 

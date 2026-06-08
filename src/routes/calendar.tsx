@@ -5,7 +5,7 @@ import { upcomingDeadlines } from "@/lib/mock-data";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/calendar")({
-  head: () => ({ meta: [{ title: "Calendar — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Calendar | AdmitOS" }] }),
   component: CalendarPage,
 });
 

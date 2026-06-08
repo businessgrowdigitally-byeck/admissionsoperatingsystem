@@ -7,7 +7,7 @@ import { ArrowLeft, Calendar, ExternalLink, Mail, MapPin, Phone, Star, Target } 
 export const Route = createFileRoute("/universities/$id")({
   head: ({ params }) => {
     const u = universities.find((x) => x.id === params.id);
-    return { meta: [{ title: `${u?.name ?? "University"} — NYU Application OS` }] };
+    return { meta: [{ title: `${u?.name ?? "University"} | AdmitOS` }] };
   },
   loader: ({ params }) => {
     const u = universities.find((x) => x.id === params.id);

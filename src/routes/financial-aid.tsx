@@ -5,7 +5,7 @@ import { finAidItems } from "@/lib/mock-data";
 import { Wallet, CheckCircle2, Clock, FileCheck, AlertCircle, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/financial-aid")({
-  head: () => ({ meta: [{ title: "Financial Aid — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Financial Aid | AdmitOS" }] }),
   component: FAPage,
 });
 

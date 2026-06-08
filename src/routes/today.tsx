@@ -5,7 +5,7 @@ import { todayTasks, quickWins, student } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Coffee, Moon, Sun, Sparkles, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/today")({
-  head: () => ({ meta: [{ title: "Today — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Today | AdmitOS" }] }),
   component: TodayPage,
 });
 

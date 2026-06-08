@@ -40,7 +40,7 @@ export function AppShell({ children, title, subtitle, actions }: { children: Rea
               <Sparkle className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-semibold tracking-tight">Application OS</div>
+              <div className="text-sm font-semibold tracking-tight">AdmitOS</div>
               <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">NYU · Cycle 25/26</div>
             </div>
           </Link>

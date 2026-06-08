@@ -6,7 +6,7 @@ import { Target, TrendingUp, Calendar, Plus } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export const Route = createFileRoute("/testing")({
-  head: () => ({ meta: [{ title: "Testing — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Testing | AdmitOS" }] }),
   component: TestingPage,
 });
 

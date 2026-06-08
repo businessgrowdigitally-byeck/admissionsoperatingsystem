@@ -14,7 +14,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-semibold gradient-text">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">This page isn't part of your application OS yet.</p>
+        <p className="mt-2 text-sm text-muted-foreground">This page isn't part of AdmitOS yet.</p>
         <div className="mt-6">
           <Link to="/" className="inline-flex items-center justify-center rounded-xl gradient-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant">Back to Mission Control</Link>
         </div>
@@ -46,14 +46,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NYU Application OS — Mission Control" },
-      { name: "description", content: "Elite admissions operating system for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
+      { title: "AdmitOS | Mission Control" },
+      { name: "description", content: "AdmitOS: Elite admissions management platform for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
       { name: "theme-color", content: "#57068C" },
-      { property: "og:title", content: "NYU Application OS — Mission Control" },
-      { property: "og:description", content: "Elite admissions operating system for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
+      { property: "og:title", content: "AdmitOS | Mission Control" },
+      { property: "og:description", content: "AdmitOS: Elite admissions management platform for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
       { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "NYU Application OS — Mission Control" },
-      { name: "twitter:description", content: "Elite admissions operating system for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
+      { name: "twitter:title", content: "AdmitOS | Mission Control" },
+      { name: "twitter:description", content: "AdmitOS: Elite admissions management platform for Ivy-bound applicants. Essays, deadlines, testing, financial aid — all in one place." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5dd6d339-037e-407f-b077-eaefe66aaeb6/id-preview-e84d3ae5--78fd462d-8a93-4abb-a827-92797be01cdb.lovable.app-1780946715034.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5dd6d339-037e-407f-b077-eaefe66aaeb6/id-preview-e84d3ae5--78fd462d-8a93-4abb-a827-92797be01cdb.lovable.app-1780946715034.png" },
       { name: "twitter:card", content: "summary_large_image" },

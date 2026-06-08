@@ -5,7 +5,7 @@ import { recommendations } from "@/lib/mock-data";
 import { Mail, CheckCircle2, Clock, Heart, Plus, MessageSquare } from "lucide-react";
 
 export const Route = createFileRoute("/recommendations")({
-  head: () => ({ meta: [{ title: "Recommendations — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Recommendations | AdmitOS" }] }),
   component: RecsPage,
 });
 

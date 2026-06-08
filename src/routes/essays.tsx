@@ -5,7 +5,7 @@ import { essays, essayColumns } from "@/lib/mock-data";
 import { PenLine, Plus, FileText, GripVertical, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/essays")({
-  head: () => ({ meta: [{ title: "Essays — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Essays | AdmitOS" }] }),
   component: EssaysPage,
 });
 

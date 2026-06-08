@@ -5,7 +5,7 @@ import { universities } from "@/lib/mock-data";
 import { MapPin, Calendar, ExternalLink, Star, Filter, Plus, Search } from "lucide-react";
 
 export const Route = createFileRoute("/universities/")({
-  head: () => ({ meta: [{ title: "Universities — NYU Application OS" }] }),
+  head: () => ({ meta: [{ title: "Universities | AdmitOS" }] }),
   component: UniversityList,
 });
 

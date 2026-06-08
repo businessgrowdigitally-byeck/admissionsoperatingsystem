@@ -16,7 +16,7 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mission Control — NYU Application OS" },
+      { title: "Mission Control | AdmitOS" },
       { name: "description", content: "Your admissions dashboard: deadlines, readiness, essays, and daily priorities." },
     ],
   }),
