@@ -12,6 +12,7 @@ import {
 import {
   Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
+import { getBottlenecks } from "@/lib/bottleneck-engine";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +29,7 @@ const iconMap = { Compass, Award, Target, PenLine, Mail, Wallet };
 function Dashboard() {
   const xpPct = (student.xp / student.xpToNext) * 100;
   const tier = readinessScore >= 85 ? "Elite Applicant" : readinessScore >= 70 ? "Competitive Applicant" : readinessScore >= 50 ? "Developing Applicant" : "Early Stage";
+  const bottlenecks = getBottlenecks();
 
   return (
     <AppShell
@@ -97,6 +99,66 @@ function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+        {/* Top Bottlenecks */}
+        <Section
+          title="Top Bottlenecks"
+          subtitle="Derived risk analysis of blockers in your application cycle"
+          className="xl:col-span-2"
+          action={<Pill tone="destructive">Calculated</Pill>}
+        >
+          <div className="space-y-3">
+            {bottlenecks.slice(0, 3).map((b) => {
+              const severityTone = b.severity === "high" ? "destructive" : b.severity === "medium" ? "warning" : "muted";
+              return (
+                <div key={b.title} className="rounded-xl border border-border bg-surface-elevated p-4 flex flex-col md:flex-row gap-4 justify-between items-start">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold tracking-tight text-foreground">{b.title}</span>
+                      <Pill tone={severityTone}>{b.severity.toUpperCase()} SEVERITY</Pill>
+                      <Pill tone="primary">Impact: {b.impact_score}</Pill>
+                    </div>
+                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                      {b.description}
+                    </p>
+                    <div className="mt-3 flex items-center gap-2.5 rounded-lg bg-accent/40 px-3 py-2 border border-border/50">
+                      <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <span className="text-xs font-medium text-foreground"><span className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mr-1">Recommended Action:</span>{b.recommended_action}</span>
+                    </div>
+                  </div>
+                  <div className="flex md:flex-col items-end justify-between w-full md:w-auto shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-border md:text-right gap-2">
+                    <div className="flex flex-row md:flex-col justify-between w-full md:w-auto md:text-right">
+                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Blocked Tasks</div>
+                      <div className="text-xs font-semibold tabular-nums text-foreground mt-0.5">{b.blocked_tasks_count} {b.blocked_tasks_count === 1 ? 'requirement' : 'requirements'}</div>
+                    </div>
+                    <div className="flex flex-row md:flex-col justify-between w-full md:w-auto md:text-right">
+                      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Est. Delay</div>
+                      <div className="text-xs font-semibold tabular-nums text-foreground mt-0.5">{b.estimated_delay_days} {b.estimated_delay_days === 1 ? 'day' : 'days'}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+
+        {/* Today */}
+        <Section title="Today's Priorities" subtitle="Top 3 high-leverage tasks" action={<Link to="/today" className="text-xs text-primary font-medium inline-flex items-center gap-0.5">Open <ChevronRight className="h-3 w-3" /></Link>}>
+          <div className="space-y-3">
+            {todayTasks.map((t, i) => (
+              <div key={t.id} className="flex items-start gap-3 rounded-xl border border-border bg-surface-elevated p-3">
+                <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary text-primary-foreground text-xs font-semibold shrink-0">{i + 1}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium truncate">{t.title}</div>
+                  <div className="mt-1 flex items-center gap-1.5">
+                    <Pill tone="primary">{t.time}</Pill>
+                    <Pill tone="info">{t.impact} impact</Pill>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
         {/* Health */}
         <Section
           title="Global Application Health"
@@ -127,24 +189,6 @@ function Dashboard() {
                 </div>
               );
             })}
-          </div>
-        </Section>
-
-        {/* Today */}
-        <Section title="Today's Priorities" subtitle="Top 3 high-leverage tasks" action={<Link to="/today" className="text-xs text-primary font-medium inline-flex items-center gap-0.5">Open <ChevronRight className="h-3 w-3" /></Link>}>
-          <div className="space-y-3">
-            {todayTasks.map((t, i) => (
-              <div key={t.id} className="flex items-start gap-3 rounded-xl border border-border bg-surface-elevated p-3">
-                <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary text-primary-foreground text-xs font-semibold shrink-0">{i + 1}</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium truncate">{t.title}</div>
-                  <div className="mt-1 flex items-center gap-1.5">
-                    <Pill tone="primary">{t.time}</Pill>
-                    <Pill tone="info">{t.impact} impact</Pill>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </Section>
 
