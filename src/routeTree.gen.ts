@@ -9,38 +9,244 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UniversitiesRouteImport } from './routes/universities'
+import { Route as TodayRouteImport } from './routes/today'
+import { Route as TestingRouteImport } from './routes/testing'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as FinancialAidRouteImport } from './routes/financial-aid'
+import { Route as EssaysRouteImport } from './routes/essays'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UniversitiesIndexRouteImport } from './routes/universities.index'
+import { Route as UniversitiesIdRouteImport } from './routes/universities.$id'
 
+const UniversitiesRoute = UniversitiesRouteImport.update({
+  id: '/universities',
+  path: '/universities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TodayRoute = TodayRouteImport.update({
+  id: '/today',
+  path: '/today',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestingRoute = TestingRouteImport.update({
+  id: '/testing',
+  path: '/testing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinancialAidRoute = FinancialAidRouteImport.update({
+  id: '/financial-aid',
+  path: '/financial-aid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EssaysRoute = EssaysRouteImport.update({
+  id: '/essays',
+  path: '/essays',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesRoute = ActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UniversitiesIndexRoute = UniversitiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UniversitiesRoute,
+} as any)
+const UniversitiesIdRoute = UniversitiesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => UniversitiesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/essays': typeof EssaysRoute
+  '/financial-aid': typeof FinancialAidRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/testing': typeof TestingRoute
+  '/today': typeof TodayRoute
+  '/universities': typeof UniversitiesRouteWithChildren
+  '/universities/$id': typeof UniversitiesIdRoute
+  '/universities/': typeof UniversitiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/essays': typeof EssaysRoute
+  '/financial-aid': typeof FinancialAidRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/testing': typeof TestingRoute
+  '/today': typeof TodayRoute
+  '/universities/$id': typeof UniversitiesIdRoute
+  '/universities': typeof UniversitiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/essays': typeof EssaysRoute
+  '/financial-aid': typeof FinancialAidRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/testing': typeof TestingRoute
+  '/today': typeof TodayRoute
+  '/universities': typeof UniversitiesRouteWithChildren
+  '/universities/$id': typeof UniversitiesIdRoute
+  '/universities/': typeof UniversitiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/activities'
+    | '/analytics'
+    | '/calendar'
+    | '/essays'
+    | '/financial-aid'
+    | '/recommendations'
+    | '/testing'
+    | '/today'
+    | '/universities'
+    | '/universities/$id'
+    | '/universities/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/activities'
+    | '/analytics'
+    | '/calendar'
+    | '/essays'
+    | '/financial-aid'
+    | '/recommendations'
+    | '/testing'
+    | '/today'
+    | '/universities/$id'
+    | '/universities'
+  id:
+    | '__root__'
+    | '/'
+    | '/activities'
+    | '/analytics'
+    | '/calendar'
+    | '/essays'
+    | '/financial-aid'
+    | '/recommendations'
+    | '/testing'
+    | '/today'
+    | '/universities'
+    | '/universities/$id'
+    | '/universities/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivitiesRoute: typeof ActivitiesRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  CalendarRoute: typeof CalendarRoute
+  EssaysRoute: typeof EssaysRoute
+  FinancialAidRoute: typeof FinancialAidRoute
+  RecommendationsRoute: typeof RecommendationsRoute
+  TestingRoute: typeof TestingRoute
+  TodayRoute: typeof TodayRoute
+  UniversitiesRoute: typeof UniversitiesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/universities': {
+      id: '/universities'
+      path: '/universities'
+      fullPath: '/universities'
+      preLoaderRoute: typeof UniversitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/today': {
+      id: '/today'
+      path: '/today'
+      fullPath: '/today'
+      preLoaderRoute: typeof TodayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/testing': {
+      id: '/testing'
+      path: '/testing'
+      fullPath: '/testing'
+      preLoaderRoute: typeof TestingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financial-aid': {
+      id: '/financial-aid'
+      path: '/financial-aid'
+      fullPath: '/financial-aid'
+      preLoaderRoute: typeof FinancialAidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/essays': {
+      id: '/essays'
+      path: '/essays'
+      fullPath: '/essays'
+      preLoaderRoute: typeof EssaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities': {
+      id: '/activities'
+      path: '/activities'
+      fullPath: '/activities'
+      preLoaderRoute: typeof ActivitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +254,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/universities/': {
+      id: '/universities/'
+      path: '/'
+      fullPath: '/universities/'
+      preLoaderRoute: typeof UniversitiesIndexRouteImport
+      parentRoute: typeof UniversitiesRoute
+    }
+    '/universities/$id': {
+      id: '/universities/$id'
+      path: '/$id'
+      fullPath: '/universities/$id'
+      preLoaderRoute: typeof UniversitiesIdRouteImport
+      parentRoute: typeof UniversitiesRoute
+    }
   }
 }
 
+interface UniversitiesRouteChildren {
+  UniversitiesIdRoute: typeof UniversitiesIdRoute
+  UniversitiesIndexRoute: typeof UniversitiesIndexRoute
+}
+
+const UniversitiesRouteChildren: UniversitiesRouteChildren = {
+  UniversitiesIdRoute: UniversitiesIdRoute,
+  UniversitiesIndexRoute: UniversitiesIndexRoute,
+}
+
+const UniversitiesRouteWithChildren = UniversitiesRoute._addFileChildren(
+  UniversitiesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivitiesRoute: ActivitiesRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  CalendarRoute: CalendarRoute,
+  EssaysRoute: EssaysRoute,
+  FinancialAidRoute: FinancialAidRoute,
+  RecommendationsRoute: RecommendationsRoute,
+  TestingRoute: TestingRoute,
+  TodayRoute: TodayRoute,
+  UniversitiesRoute: UniversitiesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
