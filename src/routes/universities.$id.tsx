@@ -78,7 +78,7 @@ function UniversityDetail() {
 
         <Section title="Academic Programs" subtitle="Of interest to you">
           <div className="flex flex-wrap gap-2">
-            {u.programs.map((p) => (<Pill key={p} tone="primary">{p}</Pill>))}
+            {u.programs.map((p: string) => (<Pill key={p} tone="primary">{p}</Pill>))}
           </div>
         </Section>
 
