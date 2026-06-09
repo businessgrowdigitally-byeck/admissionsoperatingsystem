@@ -3,6 +3,7 @@ import { AppShell } from "@/components/AppShell";
 import { Pill, ProgressBar, Section } from "@/components/ui-bits";
 import { todayTasks, quickWins, student } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Coffee, Moon, Sun, Sparkles, Clock } from "lucide-react";
+import { getCriticalPathTasks } from "@/lib/critical-path-engine";
 
 export const Route = createFileRoute("/today")({
   head: () => ({ meta: [{ title: "Today | AdmitOS" }] }),
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/today")({
 });
 
 function TodayPage() {
+  const criticalTasks = getCriticalPathTasks();
   const date = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
   const blocks = [
     { icon: Coffee, label: "Morning", time: "8:00 – 10:30", task: "Deep work: NYU 'Why Us' final revision", color: "warning" },
@@ -60,6 +62,39 @@ function TodayPage() {
                 <span className="flex-1">{q}</span>
               </button>
             ))}
+          </div>
+        </Section>
+
+        {/* Highest Leverage Actions */}
+        <Section
+          title="Highest Leverage Actions"
+          subtitle="Computed tactical prioritization to guide your daily focus"
+          className="lg:col-span-2"
+          action={<Pill tone="success">Calculated</Pill>}
+        >
+          <div className="space-y-3">
+            {criticalTasks.slice(0, 3).map((t) => {
+              const roiTone = t.roi_score >= 2.0 ? "success" : t.roi_score >= 1.2 ? "primary" : "muted";
+              return (
+                <div key={t.title} className="rounded-xl border border-border bg-surface-elevated p-4 flex flex-col sm:flex-row gap-4 justify-between items-start">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold tracking-tight text-foreground">{t.title}</span>
+                      <Pill tone={roiTone}>ROI: {t.roi_score}</Pill>
+                      <Pill tone="default">{t.estimated_time}</Pill>
+                    </div>
+                    <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <span>Unlocks: <span className="font-medium text-foreground">{t.unlocked_tasks}</span></span>
+                    </div>
+                  </div>
+                  <div className="flex sm:flex-col items-end gap-1 shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-border sm:text-right">
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Impact / Effort</div>
+                    <div className="text-xs font-semibold tabular-nums text-foreground">{t.impact_score} / {t.effort_score}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </Section>
 

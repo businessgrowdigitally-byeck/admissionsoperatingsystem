@@ -13,6 +13,7 @@ import {
   Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
 import { getBottlenecks } from "@/lib/bottleneck-engine";
+import { getCriticalPathTasks } from "@/lib/critical-path-engine";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,6 +31,7 @@ function Dashboard() {
   const xpPct = (student.xp / student.xpToNext) * 100;
   const tier = readinessScore >= 85 ? "Elite Applicant" : readinessScore >= 70 ? "Competitive Applicant" : readinessScore >= 50 ? "Developing Applicant" : "Early Stage";
   const bottlenecks = getBottlenecks();
+  const criticalTasks = getCriticalPathTasks();
 
   return (
     <AppShell
@@ -192,28 +194,6 @@ function Dashboard() {
           </div>
         </Section>
 
-        {/* Deadline radar */}
-        <Section title="Deadline Radar" subtitle="Next 90 days" className="xl:col-span-2">
-          <div className="space-y-2">
-            {upcomingDeadlines.slice(0, 6).map((d) => {
-              const tone = d.daysOut <= 14 ? "destructive" : d.daysOut <= 30 ? "warning" : "info";
-              return (
-                <div key={d.id} className="grid grid-cols-12 items-center gap-3 rounded-xl border border-border bg-surface-elevated px-4 py-3">
-                  <div className="col-span-6 md:col-span-5 min-w-0">
-                    <div className="text-sm font-medium truncate">{d.task}</div>
-                    <div className="text-xs text-muted-foreground">{d.university} · {d.category}</div>
-                  </div>
-                  <div className="col-span-3 md:col-span-2"><Pill tone={d.priority === "P0" ? "destructive" : d.priority === "P1" ? "warning" : "muted"}>{d.priority}</Pill></div>
-                  <div className="col-span-3 md:col-span-3 text-right md:text-left text-xs text-muted-foreground tabular-nums">{d.due}</div>
-                  <div className="col-span-12 md:col-span-2 md:text-right">
-                    <Pill tone={tone as any}>in {d.daysOut}d</Pill>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Section>
-
         {/* Alerts */}
         <Section title="Smart Alerts" subtitle="Auto-detected risks">
           <div className="space-y-3">
@@ -229,22 +209,36 @@ function Dashboard() {
           </div>
         </Section>
 
-        {/* University quick view */}
-        <Section title="University CRM" subtitle="Top targets by fit score" className="xl:col-span-2" action={<Link to="/universities" className="text-xs text-primary font-medium">View all</Link>}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {universities.slice(0, 4).map((u) => (
-              <Link key={u.id} to="/universities/$id" params={{ id: u.id }} className="group flex items-center gap-3 rounded-xl border border-border bg-surface-elevated p-3 hover:border-primary/40 hover:shadow-elegant transition">
-                <div className="grid h-11 w-11 place-items-center rounded-xl text-sm font-semibold text-white shrink-0" style={{ background: u.color }}>{u.short}</div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold truncate">{u.name}</div>
-                  <div className="text-xs text-muted-foreground truncate">{u.location} · {u.acceptance}% accept</div>
+        {/* Highest Leverage Actions */}
+        <Section
+          title="Highest Leverage Actions"
+          subtitle="Computed task priority by ROI (Impact / Effort)"
+          className="xl:col-span-2"
+          action={<Link to="/war-room" className="text-xs text-primary font-medium inline-flex items-center gap-0.5">Open War Room <ChevronRight className="h-3 w-3" /></Link>}
+        >
+          <div className="space-y-3">
+            {criticalTasks.slice(0, 3).map((t) => {
+              const roiTone = t.roi_score >= 2.0 ? "success" : t.roi_score >= 1.2 ? "primary" : "muted";
+              return (
+                <div key={t.title} className="rounded-xl border border-border bg-surface-elevated p-4 flex flex-col sm:flex-row gap-4 justify-between items-start">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold tracking-tight text-foreground">{t.title}</span>
+                      <Pill tone={roiTone}>ROI: {t.roi_score}</Pill>
+                      <Pill tone="default">{t.estimated_time}</Pill>
+                    </div>
+                    <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <span>Unlocks: <span className="font-medium text-foreground">{t.unlocked_tasks}</span></span>
+                    </div>
+                  </div>
+                  <div className="flex sm:flex-col items-end gap-1 shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-border sm:text-right">
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Impact / Effort</div>
+                    <div className="text-xs font-semibold tabular-nums text-foreground">{t.impact_score} / {t.effort_score}</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-semibold tabular-nums">{u.fitScore}</div>
-                  <Pill tone={u.type === "ED" ? "primary" : u.type === "EA" || u.type === "REA" ? "info" : "muted"}>{u.type}</Pill>
-                </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </Section>
 
@@ -268,6 +262,28 @@ function Dashboard() {
           </div>
         </Section>
 
+        {/* Deadline radar */}
+        <Section title="Deadline Radar" subtitle="Next 90 days" className="xl:col-span-2">
+          <div className="space-y-2">
+            {upcomingDeadlines.slice(0, 6).map((d) => {
+              const tone = d.daysOut <= 14 ? "destructive" : d.daysOut <= 30 ? "warning" : "info";
+              return (
+                <div key={d.id} className="grid grid-cols-12 items-center gap-3 rounded-xl border border-border bg-surface-elevated px-4 py-3">
+                  <div className="col-span-6 md:col-span-5 min-w-0">
+                    <div className="text-sm font-medium truncate">{d.task}</div>
+                    <div className="text-xs text-muted-foreground">{d.university} · {d.category}</div>
+                  </div>
+                  <div className="col-span-3 md:col-span-2"><Pill tone={d.priority === "P0" ? "destructive" : d.priority === "P1" ? "warning" : "muted"}>{d.priority}</Pill></div>
+                  <div className="col-span-3 md:col-span-3 text-right md:text-left text-xs text-muted-foreground tabular-nums">{d.due}</div>
+                  <div className="col-span-12 md:col-span-2 md:text-right">
+                    <Pill tone={tone as any}>in {d.daysOut}d</Pill>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+
         {/* SAT progress */}
         <Section title="SAT Trajectory" subtitle={`Latest ${student.satCurrent} · Goal ${student.satGoal}`} action={<Link to="/testing" className="text-xs text-primary font-medium">Open</Link>}>
           <div className="h-44 -ml-3">
@@ -285,6 +301,25 @@ function Dashboard() {
                 <Area type="monotone" dataKey="score" stroke="#8B5CF6" strokeWidth={2.5} fill="url(#gs)" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+        </Section>
+
+        {/* University quick view */}
+        <Section title="University CRM" subtitle="Top targets by fit score" className="xl:col-span-2" action={<Link to="/universities" className="text-xs text-primary font-medium">View all</Link>}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {universities.slice(0, 4).map((u) => (
+              <Link key={u.id} to="/universities/$id" params={{ id: u.id }} className="group flex items-center gap-3 rounded-xl border border-border bg-surface-elevated p-3 hover:border-primary/40 hover:shadow-elegant transition">
+                <div className="grid h-11 w-11 place-items-center rounded-xl text-sm font-semibold text-white shrink-0" style={{ background: u.color }}>{u.short}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold truncate">{u.name}</div>
+                  <div className="text-xs text-muted-foreground truncate">{u.location} · {u.acceptance}% accept</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-semibold tabular-nums">{u.fitScore}</div>
+                  <Pill tone={u.type === "ED" ? "primary" : u.type === "EA" || u.type === "REA" ? "info" : "muted"}>{u.type}</Pill>
+                </div>
+              </Link>
+            ))}
           </div>
         </Section>
 

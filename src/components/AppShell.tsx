@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import {
   LayoutDashboard, GraduationCap, PenLine, Award, Mail, Target,
   Wallet, CalendarDays, BarChart3, Sparkles, Sun, Search, Bell,
-  Sparkle, Flame, Menu, X,
+  Sparkle, Flame, Menu, X, ShieldAlert,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { student } from "@/lib/mock-data";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 const nav = [
   { to: "/", label: "Mission Control", icon: LayoutDashboard, exact: true },
+  { to: "/war-room", label: "War Room", icon: ShieldAlert },
   { to: "/today", label: "Today", icon: Sun },
   { to: "/universities", label: "Universities", icon: GraduationCap },
   { to: "/essays", label: "Essays", icon: PenLine },
