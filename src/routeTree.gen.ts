@@ -18,6 +18,7 @@ import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as PdcaRouteImport } from './routes/pdca'
 import { Route as FinancialAidRouteImport } from './routes/financial-aid'
 import { Route as EssaysRouteImport } from './routes/essays'
+import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as ActivitiesRouteImport } from './routes/activities'
@@ -70,6 +71,11 @@ const EssaysRoute = EssaysRouteImport.update({
   path: '/essays',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/activities': typeof ActivitiesRoute
   '/analytics': typeof AnalyticsRoute
   '/calendar': typeof CalendarRoute
+  '/copilot': typeof CopilotRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/activities': typeof ActivitiesRoute
   '/analytics': typeof AnalyticsRoute
   '/calendar': typeof CalendarRoute
+  '/copilot': typeof CopilotRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/activities': typeof ActivitiesRoute
   '/analytics': typeof AnalyticsRoute
   '/calendar': typeof CalendarRoute
+  '/copilot': typeof CopilotRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/analytics'
     | '/calendar'
+    | '/copilot'
     | '/essays'
     | '/financial-aid'
     | '/pdca'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/analytics'
     | '/calendar'
+    | '/copilot'
     | '/essays'
     | '/financial-aid'
     | '/pdca'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/analytics'
     | '/calendar'
+    | '/copilot'
     | '/essays'
     | '/financial-aid'
     | '/pdca'
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   ActivitiesRoute: typeof ActivitiesRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CalendarRoute: typeof CalendarRoute
+  CopilotRoute: typeof CopilotRoute
   EssaysRoute: typeof EssaysRoute
   FinancialAidRoute: typeof FinancialAidRoute
   PdcaRoute: typeof PdcaRoute
@@ -286,6 +299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EssaysRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/calendar': {
       id: '/calendar'
       path: '/calendar'
@@ -350,6 +370,7 @@ const rootRouteChildren: RootRouteChildren = {
   ActivitiesRoute: ActivitiesRoute,
   AnalyticsRoute: AnalyticsRoute,
   CalendarRoute: CalendarRoute,
+  CopilotRoute: CopilotRoute,
   EssaysRoute: EssaysRoute,
   FinancialAidRoute: FinancialAidRoute,
   PdcaRoute: PdcaRoute,
@@ -363,13 +384,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
