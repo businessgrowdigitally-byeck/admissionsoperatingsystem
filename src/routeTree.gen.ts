@@ -9,10 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WarRoomRouteImport } from './routes/war-room'
 import { Route as UniversitiesRouteImport } from './routes/universities'
 import { Route as TodayRouteImport } from './routes/today'
 import { Route as TestingRouteImport } from './routes/testing'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as PdcaRouteImport } from './routes/pdca'
 import { Route as FinancialAidRouteImport } from './routes/financial-aid'
 import { Route as EssaysRouteImport } from './routes/essays'
 import { Route as CalendarRouteImport } from './routes/calendar'
@@ -22,6 +24,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UniversitiesIndexRouteImport } from './routes/universities.index'
 import { Route as UniversitiesIdRouteImport } from './routes/universities.$id'
 
+const WarRoomRoute = WarRoomRouteImport.update({
+  id: '/war-room',
+  path: '/war-room',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UniversitiesRoute = UniversitiesRouteImport.update({
   id: '/universities',
   path: '/universities',
@@ -40,6 +47,11 @@ const TestingRoute = TestingRouteImport.update({
 const RecommendationsRoute = RecommendationsRouteImport.update({
   id: '/recommendations',
   path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PdcaRoute = PdcaRouteImport.update({
+  id: '/pdca',
+  path: '/pdca',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinancialAidRoute = FinancialAidRouteImport.update({
@@ -90,10 +102,12 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
+  '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
   '/universities': typeof UniversitiesRouteWithChildren
+  '/war-room': typeof WarRoomRoute
   '/universities/$id': typeof UniversitiesIdRoute
   '/universities/': typeof UniversitiesIndexRoute
 }
@@ -104,9 +118,11 @@ export interface FileRoutesByTo {
   '/calendar': typeof CalendarRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
+  '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
+  '/war-room': typeof WarRoomRoute
   '/universities/$id': typeof UniversitiesIdRoute
   '/universities': typeof UniversitiesIndexRoute
 }
@@ -118,10 +134,12 @@ export interface FileRoutesById {
   '/calendar': typeof CalendarRoute
   '/essays': typeof EssaysRoute
   '/financial-aid': typeof FinancialAidRoute
+  '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
   '/universities': typeof UniversitiesRouteWithChildren
+  '/war-room': typeof WarRoomRoute
   '/universities/$id': typeof UniversitiesIdRoute
   '/universities/': typeof UniversitiesIndexRoute
 }
@@ -134,10 +152,12 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/essays'
     | '/financial-aid'
+    | '/pdca'
     | '/recommendations'
     | '/testing'
     | '/today'
     | '/universities'
+    | '/war-room'
     | '/universities/$id'
     | '/universities/'
   fileRoutesByTo: FileRoutesByTo
@@ -148,9 +168,11 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/essays'
     | '/financial-aid'
+    | '/pdca'
     | '/recommendations'
     | '/testing'
     | '/today'
+    | '/war-room'
     | '/universities/$id'
     | '/universities'
   id:
@@ -161,10 +183,12 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/essays'
     | '/financial-aid'
+    | '/pdca'
     | '/recommendations'
     | '/testing'
     | '/today'
     | '/universities'
+    | '/war-room'
     | '/universities/$id'
     | '/universities/'
   fileRoutesById: FileRoutesById
@@ -176,14 +200,23 @@ export interface RootRouteChildren {
   CalendarRoute: typeof CalendarRoute
   EssaysRoute: typeof EssaysRoute
   FinancialAidRoute: typeof FinancialAidRoute
+  PdcaRoute: typeof PdcaRoute
   RecommendationsRoute: typeof RecommendationsRoute
   TestingRoute: typeof TestingRoute
   TodayRoute: typeof TodayRoute
   UniversitiesRoute: typeof UniversitiesRouteWithChildren
+  WarRoomRoute: typeof WarRoomRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/war-room': {
+      id: '/war-room'
+      path: '/war-room'
+      fullPath: '/war-room'
+      preLoaderRoute: typeof WarRoomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/universities': {
       id: '/universities'
       path: '/universities'
@@ -210,6 +243,13 @@ declare module '@tanstack/react-router' {
       path: '/recommendations'
       fullPath: '/recommendations'
       preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pdca': {
+      id: '/pdca'
+      path: '/pdca'
+      fullPath: '/pdca'
+      preLoaderRoute: typeof PdcaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/financial-aid': {
@@ -292,11 +332,23 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarRoute: CalendarRoute,
   EssaysRoute: EssaysRoute,
   FinancialAidRoute: FinancialAidRoute,
+  PdcaRoute: PdcaRoute,
   RecommendationsRoute: RecommendationsRoute,
   TestingRoute: TestingRoute,
   TodayRoute: TodayRoute,
   UniversitiesRoute: UniversitiesRouteWithChildren,
+  WarRoomRoute: WarRoomRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
