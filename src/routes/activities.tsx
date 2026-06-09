@@ -16,7 +16,7 @@ function ActivitiesPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
         <StatCard label="Activities" value={activities.length} sublabel="of 10 allowed" icon={<Users className="h-4 w-4 text-primary" />} />
         <StatCard label="Honors" value={honors.length} sublabel="of 5 allowed" icon={<Trophy className="h-4 w-4 text-warning" />} accent="warning" />
-        <StatCard label="Total Hours" value={totalHours.toLocaleString()} sublabel="across all years" icon={<Clock className="h-4 w-4 text-info" />} accent="info" />
+        <StatCard label="Total Hours" value={totalHours.toLocaleString("en-US")} sublabel="across all years" icon={<Clock className="h-4 w-4 text-info" />} accent="info" />
         <StatCard label="Leadership Score" value="84" sublabel="elite tier" accent="success" />
       </div>
 
