@@ -21,7 +21,7 @@ function EssaysPage() {
         <StatCard label="Total Essays" value={total} icon={<FileText className="h-4 w-4 text-primary" />} />
         <StatCard label="Ready" value={ready} accent="info" sublabel="Awaiting submit" />
         <StatCard label="Submitted" value={submitted} accent="success" />
-        <StatCard label="Words Written" value={wordsWritten.toLocaleString()} accent="warning" />
+        <StatCard label="Words Written" value={wordsWritten.toLocaleString("en-US")} accent="warning" />
       </div>
 
       <div className="flex items-center justify-between mb-4">

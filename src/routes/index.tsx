@@ -84,7 +84,7 @@ function Dashboard() {
             <div className="flex-1">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-medium">Level {student.level}</span>
-                <span className="text-muted-foreground">{student.xp.toLocaleString()} / {student.xpToNext.toLocaleString()} XP</span>
+                <span className="text-muted-foreground">{student.xp.toLocaleString("en-US")} / {student.xpToNext.toLocaleString("en-US")} XP</span>
               </div>
               <div className="mt-1.5"><ProgressBar value={xpPct} /></div>
             </div>

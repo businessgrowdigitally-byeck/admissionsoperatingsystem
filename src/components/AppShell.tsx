@@ -118,7 +118,7 @@ export function AppShell({ children, title, subtitle, actions }: { children: Rea
               </div>
               <div className="hidden md:block leading-tight">
                 <div className="text-sm font-semibold">{student.name}</div>
-                <div className="text-[11px] text-muted-foreground">Level {student.level} · {student.xp.toLocaleString()} XP</div>
+                <div className="text-[11px] text-muted-foreground">Level {student.level} · {student.xp.toLocaleString("en-US")} XP</div>
               </div>
             </div>
           </div>

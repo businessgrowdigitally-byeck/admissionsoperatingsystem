@@ -12,7 +12,7 @@ export const Route = createFileRoute("/today")({
 
 function TodayPage() {
   const criticalTasks = getCriticalPathTasks();
-  const date = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+  const date = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   const blocks = [
     { icon: Coffee, label: "Morning", time: "8:00 – 10:30", task: "Deep work: NYU 'Why Us' final revision", color: "warning" },
     { icon: Sun, label: "Afternoon", time: "1:00 – 3:00", task: "CSS Profile parent income + tax docs", color: "info" },

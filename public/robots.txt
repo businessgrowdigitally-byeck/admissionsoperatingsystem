@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://admissionsoperatingsystem.lovable.app/sitemap.xml
