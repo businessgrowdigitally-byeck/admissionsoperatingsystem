@@ -13,6 +13,7 @@ import { Route as WarRoomRouteImport } from './routes/war-room'
 import { Route as UniversitiesRouteImport } from './routes/universities'
 import { Route as TodayRouteImport } from './routes/today'
 import { Route as TestingRouteImport } from './routes/testing'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as PdcaRouteImport } from './routes/pdca'
 import { Route as FinancialAidRouteImport } from './routes/financial-aid'
@@ -42,6 +43,11 @@ const TodayRoute = TodayRouteImport.update({
 const TestingRoute = TestingRouteImport.update({
   id: '/testing',
   path: '/testing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecommendationsRoute = RecommendationsRouteImport.update({
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
   '/universities': typeof UniversitiesRouteWithChildren
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
   '/war-room': typeof WarRoomRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/financial-aid': typeof FinancialAidRoute
   '/pdca': typeof PdcaRoute
   '/recommendations': typeof RecommendationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testing': typeof TestingRoute
   '/today': typeof TodayRoute
   '/universities': typeof UniversitiesRouteWithChildren
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/financial-aid'
     | '/pdca'
     | '/recommendations'
+    | '/sitemap.xml'
     | '/testing'
     | '/today'
     | '/universities'
@@ -170,6 +180,7 @@ export interface FileRouteTypes {
     | '/financial-aid'
     | '/pdca'
     | '/recommendations'
+    | '/sitemap.xml'
     | '/testing'
     | '/today'
     | '/war-room'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/financial-aid'
     | '/pdca'
     | '/recommendations'
+    | '/sitemap.xml'
     | '/testing'
     | '/today'
     | '/universities'
@@ -202,6 +214,7 @@ export interface RootRouteChildren {
   FinancialAidRoute: typeof FinancialAidRoute
   PdcaRoute: typeof PdcaRoute
   RecommendationsRoute: typeof RecommendationsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestingRoute: typeof TestingRoute
   TodayRoute: typeof TodayRoute
   UniversitiesRoute: typeof UniversitiesRouteWithChildren
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/testing'
       fullPath: '/testing'
       preLoaderRoute: typeof TestingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recommendations': {
@@ -334,6 +354,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinancialAidRoute: FinancialAidRoute,
   PdcaRoute: PdcaRoute,
   RecommendationsRoute: RecommendationsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestingRoute: TestingRoute,
   TodayRoute: TodayRoute,
   UniversitiesRoute: UniversitiesRouteWithChildren,
@@ -342,3 +363,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
