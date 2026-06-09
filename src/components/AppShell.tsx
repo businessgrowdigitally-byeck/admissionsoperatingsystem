@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import {
   LayoutDashboard, GraduationCap, PenLine, Award, Mail, Target,
   Wallet, CalendarDays, BarChart3, Sparkles, Sun, Search, Bell,
-  Sparkle, Flame, Menu, X, ShieldAlert, RotateCw,
+  Sparkle, Flame, Menu, X, ShieldAlert, RotateCw, Bot,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { student } from "@/lib/mock-data";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 const nav = [
   { to: "/", label: "Mission Control", icon: LayoutDashboard, exact: true },
+  { to: "/copilot", label: "AI Copilot", icon: Bot },
   { to: "/war-room", label: "War Room", icon: ShieldAlert },
   { to: "/pdca", label: "PDCA Center", icon: RotateCw },
   { to: "/today", label: "Today", icon: Sun },
@@ -81,9 +82,12 @@ export function AppShell({ children, title, subtitle, actions }: { children: Rea
             <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
               "Finish your NYU 'Why Us' draft — you're 96% of the way there."
             </p>
-            <button className="mt-3 w-full rounded-lg gradient-primary px-3 py-1.5 text-xs font-medium text-primary-foreground shadow-elegant transition-transform hover:scale-[1.02]">
+            <Link
+              to="/copilot"
+              className="mt-3 block w-full text-center rounded-lg gradient-primary px-3 py-1.5 text-xs font-medium text-primary-foreground shadow-elegant transition-transform hover:scale-[1.02]"
+            >
               Open Copilot
-            </button>
+            </Link>
           </div>
         </div>
       </aside>
